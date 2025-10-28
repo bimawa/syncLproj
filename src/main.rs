@@ -17,9 +17,6 @@ fn main() -> io::Result<()> {
     let original_content = fs::read_to_string(original_path)?;
     let original_entries = parse_strings_with_order(&original_content);
 
-    // Исправлено: клонируем строки → HashSet<String>
-    let original_keys: HashSet<String> = original_entries.iter().map(|e| e.key.clone()).collect();
-
     println!("Scanning folder: {}", lproj_folder);
 
     let strings_files = find_strings_files(Path::new(lproj_folder));
@@ -31,7 +28,7 @@ fn main() -> io::Result<()> {
 
     for file_path in strings_files {
         println!("Syncing: {}", file_path.display());
-        sync_strings_file(&file_path, &original_keys, &original_entries)?;
+        sync_strings_file(&file_path, &original_entries)?;
     }
 
     println!("All .strings files synchronized successfully!");
