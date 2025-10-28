@@ -83,7 +83,6 @@ fn parse_strings_with_order(content: &str) -> Vec<StringEntry> {
 
 fn sync_strings_file(
     path: &Path,
-    original_keys: &HashSet<String>,
     original_entries: &Vec<StringEntry>,
 ) -> io::Result<()> {
     let content = fs::read_to_string(path)?;
