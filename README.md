@@ -19,10 +19,40 @@ This tool solves these problems by:
 
 ## Installation
 
-### Prerequisites
+### Option 1: Download Pre-built Binary
+
+1. Download the latest release archive from the [Releases](https://github.com/bimawa/syncLproj/releases) page
+
+2. Extract the archive:
+```bash
+# For .tar.gz
+tar -xzf synclproj-<version>.tar.gz
+
+# For .zip
+unzip synclproj-<version>.zip
+```
+
+3. Make the binary executable:
+```bash
+chmod +x synclproj
+```
+
+4. (Optional) Move to a directory in your PATH:
+```bash
+sudo mv synclproj /usr/local/bin/
+```
+
+5. Run the tool:
+```bash
+synclproj <original.strings> <lproj_folder>
+```
+
+### Option 2: Build from Source
+
+#### Prerequisites
 - Rust toolchain (1.70 or later)
 
-### Build from source
+#### Build steps
 ```bash
 cargo build --release
 ```
