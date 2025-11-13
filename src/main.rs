@@ -52,7 +52,7 @@ fn find_strings_files(folder: &Path) -> Vec<PathBuf> {
 }
 
 // ──────────────────────────────────────────────────────────────
-//  ПАРСИНГ
+//  PARSING
 // ──────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone)]
@@ -88,7 +88,7 @@ fn sync_strings_file(
     let mut preserved_comments = Vec::new();
     let mut existing_keys = HashSet::new();
 
-    // 1. Сбор комментариев и существующих ключей
+    // 1. Collect comments and existing keys
     while i < lines.len() {
         let line = lines[i];
         let trimmed = line.trim();
@@ -114,10 +114,10 @@ fn sync_strings_file(
         }
     }
 
-    // 2. Формируем результат
+    // 2. Build the result
     let mut output_lines = Vec::new();
 
-    // Комментарии в начале
+    // Comments at the beginning
     for comment in &preserved_comments {
         if !comment.trim().is_empty() {
             output_lines.push(comment.clone());
@@ -127,12 +127,12 @@ fn sync_strings_file(
         output_lines.push(String::new());
     }
 
-    // Проходим по оригинальному порядку
+    // Iterate through the original order
     for orig_entry in original_entries {
         let key = &orig_entry.key;
 
         if existing_keys.contains(key) {
-            // Ключ есть — берём его запись из целевого файла
+            // Key exists — take its entry from the target file
             let target_content = fs::read_to_string(path)?;
             let target_lines: Vec<&str> = target_content.lines().collect();
             let mut j = 0;
@@ -152,7 +152,7 @@ fn sync_strings_file(
                 }
             }
         } else {
-            // Ключ отсутствует — копируем из original
+            // Key is missing — copy from original
             println!("   Adding missing key: {}", key);
             for line in &orig_entry.raw_lines {
                 output_lines.push(line.clone());
@@ -160,7 +160,7 @@ fn sync_strings_file(
         }
     }
 
-    // 3. Убираем лишние пустые строки
+    // 3. Remove extra empty lines
     let mut final_lines = Vec::new();
     let mut last_empty = false;
     for line in output_lines {
@@ -175,7 +175,7 @@ fn sync_strings_file(
         }
     }
 
-    // Убираем пустые в начале и конце
+    // Remove empty lines at the beginning and end
     let mut final_lines: Vec<String> = final_lines
         .into_iter()
         .skip_while(|s| s.trim().is_empty())
@@ -184,7 +184,7 @@ fn sync_strings_file(
         final_lines.pop();
     }
 
-    // 4. Запись
+    // 4. Write to file
     let mut file = fs::File::create(path)?;
     if !final_lines.is_empty() {
         writeln!(file, "{}", final_lines.join("\n"))?;
@@ -193,7 +193,7 @@ fn sync_strings_file(
 }
 
 // ──────────────────────────────────────────────────────────────
-//  МНОГОСТРОЧНЫЙ ПАРСЕР
+//  MULTILINE PARSER
 // ──────────────────────────────────────────────────────────────
 
 fn parse_multiline_entry(lines: &[&str], start: usize) -> (Option<StringEntry>, usize) {
