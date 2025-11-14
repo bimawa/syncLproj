@@ -25,11 +25,8 @@ This tool solves these problems by:
 
 2. Extract the archive:
 ```bash
-# For .tar.gz
-tar -xzf synclproj-<version>.tar.gz
-
 # For .zip
-unzip synclproj-<version>.zip
+unzip synclproj.zip
 ```
 
 3. Make the binary executable:
